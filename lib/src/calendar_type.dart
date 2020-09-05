@@ -1,0 +1,4 @@
+enum CalendarType {
+  CALENDAR_SINGLE_DAY,
+  CALENDAR_RANGE_DAY,
+}

@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - vertical_scrolling_calendar (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - vertical_scrolling_calendar (from `.symlinks/plugins/vertical_scrolling_calendar/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  vertical_scrolling_calendar:
+    :path: ".symlinks/plugins/vertical_scrolling_calendar/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  vertical_scrolling_calendar: 187422be4e5aa26dca2f5129f8d6c38227a11da7
+
+PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
+
+COCOAPODS: 1.9.3
