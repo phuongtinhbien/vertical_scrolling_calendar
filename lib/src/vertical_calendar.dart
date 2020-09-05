@@ -116,7 +116,6 @@ class VerticalCalendarState extends State<VerticalCalendar> {
     return Scaffold(
       body: Center(
         child: Container(
-            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(20),
@@ -158,8 +157,8 @@ class VerticalCalendarState extends State<VerticalCalendar> {
                       '${CalendarUtils.monthNames[currentMonth]} ${currentYear}',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -220,7 +219,7 @@ class VerticalCalendarState extends State<VerticalCalendar> {
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 12),
       itemCount: _sequentialDates.length + 7,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
@@ -395,10 +394,9 @@ class VerticalCalendarState extends State<VerticalCalendar> {
               child: Text(
                 "Select year",
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400
-                ),
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400),
               ),
             )),
             _toggleBtn(true),
