@@ -4,21 +4,21 @@ enum StartWeekDay { sunday, monday }
 enum CalendarViews{ dates, months, year }
 
 class CalendarUtils {
-  static final List<String> weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+  static final List<String> weekDays = ['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN'];
   static final List<int> monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   static final List<String> monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'Tháng 1',
+    'Tháng 2',
+    'Tháng 3',
+    'Tháng 4',
+    'Tháng 5',
+    'Tháng 6',
+    'Tháng 7',
+    'Tháng 8',
+    'Tháng 9',
+    'Tháng 10',
+    'Tháng 11',
+    'Tháng 12'
   ];
 
   // check for leap year
@@ -133,5 +133,14 @@ class CalendarUtils {
     }
 
     return calendar;
+  }
+
+
+  static int calculateDifferenceNow(DateTime date) {
+    DateTime now = DateTime.now();
+    return DateTime(date.year, date.month, date.day).difference(DateTime(now.year, now.month, now.day)).inDays;
+  }
+  static int calculateDifference(DateTime now, DateTime date) {
+    return DateTime(date.year, date.month, date.day).difference(DateTime(now.year, now.month, now.day)).inDays;
   }
 }

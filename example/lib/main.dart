@@ -26,10 +26,15 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Vertical Scrolling Calendar'),
         ),
-        body: VerticalCalendar.single(
-          startTime: DateTime.now().subtract(Duration(days: 180)),
-          endTime: DateTime.now().add(Duration(days: 180)),
+        body: VerticalCalendar.range(
+          startTime: DateTime.now().subtract(Duration(days: 7)),
+          endTime: DateTime.now(),
+          onRangeDateSelected: (start, end) {
+            print(start.toString());
+            print(end.toString());
+          },
           initialDate: DateTime.now(),
+          titleColor: Colors.grey,
         ),
       ),
     );
