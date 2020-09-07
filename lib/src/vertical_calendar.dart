@@ -500,6 +500,24 @@ class VerticalCalendarState extends State<VerticalCalendar> {
     );
   }
 
+  void changeInitRangeDate(DateTime startDay, DateTime endDay) {
+    setState(() {
+      startRangeTime = startDay;
+      endRangeTime = endDay;
+    });
+    int currentMonth = _sequentialMonths.indexWhere((element) =>
+        element.month == startDay.month && element.year == startDay.year);
+    int currentDay = _sequentialMonths[currentMonth].sequentialDates.indexWhere(
+        (element) => element.date.day == startDay.day && element.thisMonth);
+    double offset = currentMonth * MediaQuery.of(context).size.width;
+    offset += (currentDay / 6) * (MediaQuery.of(context).size.width / 7);
+    _scrollController.animateTo(offset,
+        duration: Duration(
+          milliseconds: 300,
+        ),
+        curve: Curves.linear);
+  }
+
   // years list views
   Widget _yearsView(int midYear) {
     return Column(
