@@ -141,6 +141,8 @@ class CalendarUtils {
     return DateTime(date.year, date.month, date.day).difference(DateTime(now.year, now.month, now.day)).inDays;
   }
   static int calculateDifference(DateTime now, DateTime date) {
+    if (now == null || date == null)
+      return -1;
     return DateTime(date.year, date.month, date.day).difference(DateTime(now.year, now.month, now.day)).inDays;
   }
 }
