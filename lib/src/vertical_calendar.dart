@@ -509,7 +509,7 @@ class VerticalCalendarState extends State<VerticalCalendar> {
         element.month == startDay.month && element.year == startDay.year);
     int currentDay = _sequentialMonths[currentMonth].sequentialDates.indexWhere(
         (element) => element.date.day == startDay.day && element.thisMonth);
-    double offset = currentMonth * MediaQuery.of(context).size.width;
+    double offset = currentMonth * MediaQuery.of(context).size.width - 30;
     offset += (currentDay / 6) * (MediaQuery.of(context).size.width / 7);
     _scrollController.animateTo(offset,
         duration: Duration(
