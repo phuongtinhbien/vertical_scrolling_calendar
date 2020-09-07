@@ -20,30 +20,30 @@ class VerticalCalendar extends StatefulWidget {
 
   VerticalCalendar(
       {Key key,
-      @required this.startTime,
-      @required this.endTime,
-      this.onDateSelected,
-      this.onRangeDateSelected,
-      this.initialDate,
-      this.unselectedColor = const Color(0xFFBDBDBD),
-      this.selectedColor = Colors.red,
-      this.todayColor = Colors.red,
-      this.textStyleDate,
-      this.calendarType,
-      this.titleColor,
-      this.rangDateColor = const Color(0xFFFFD180)})
+        @required this.startTime,
+        @required this.endTime,
+        this.onDateSelected,
+        this.onRangeDateSelected,
+        this.initialDate,
+        this.unselectedColor = const Color(0xFFBDBDBD),
+        this.selectedColor = Colors.red,
+        this.todayColor = Colors.red,
+        this.textStyleDate,
+        this.calendarType,
+        this.titleColor,
+        this.rangDateColor = const Color(0xFFFFD180)})
       : super(key: key);
 
   factory VerticalCalendar.single(
       {Key key,
-      Function(DateTime) onDateSelected,
-      DateTime initialDate,
-      Color unselectedColor,
-      Color selectedColor,
-      Color todayColor,
-      Color titleColor,
-      TextStyle textStyleDate,
-      CalendarType calendarType}) {
+        Function(DateTime) onDateSelected,
+        DateTime initialDate,
+        Color unselectedColor,
+        Color selectedColor,
+        Color todayColor,
+        Color titleColor,
+        TextStyle textStyleDate,
+        CalendarType calendarType}) {
     return VerticalCalendar(
       key: key,
       calendarType: CalendarType.CALENDAR_SINGLE_DAY,
@@ -59,17 +59,17 @@ class VerticalCalendar extends StatefulWidget {
 
   factory VerticalCalendar.range(
       {Key key,
-      @required DateTime startTime,
-      @required DateTime endTime,
-      Function(DateTime, DateTime) onRangeDateSelected,
-      DateTime initialDate,
-      Color unselectedColor,
-      Color selectedColor,
-      Color todayColor,
-      Color titleColor,
-      Color rangDateColor,
-      TextStyle textStyleDate,
-      CalendarType calendarType}) {
+        @required DateTime startTime,
+        @required DateTime endTime,
+        Function(DateTime, DateTime) onRangeDateSelected,
+        DateTime initialDate,
+        Color unselectedColor,
+        Color selectedColor,
+        Color todayColor,
+        Color titleColor,
+        Color rangDateColor,
+        TextStyle textStyleDate,
+        CalendarType calendarType}) {
     return VerticalCalendar(
       key: key,
       calendarType: CalendarType.CALENDAR_RANGE_DAY,
@@ -145,8 +145,9 @@ class VerticalCalendarState extends State<VerticalCalendar> {
               _currentStartDateTime.year, _currentStartDateTime.month + 1);
         }
       });
-      double offset = scrollIndex * MediaQuery.of(context).size.width;
 
+
+      double offset = (scrollIndex - 1) * (MediaQuery.of(context).size.width -30);
       _scrollController.jumpTo(offset);
     });
   }
@@ -163,8 +164,8 @@ class VerticalCalendarState extends State<VerticalCalendar> {
             child: (_currentView == CalendarViews.dates)
                 ? _datesView()
                 : (_currentView == CalendarViews.months)
-                    ? _showMonthsList()
-                    : _yearsView(midYear ?? _currentStartDateTime.year)),
+                ? _showMonthsList()
+                : _yearsView(midYear ?? _currentStartDateTime.year)),
       ),
     );
   }
@@ -177,31 +178,31 @@ class VerticalCalendarState extends State<VerticalCalendar> {
         // header
         Expanded(
             child: ListView.builder(
-          controller: _scrollController,
-          itemBuilder: (itemContext, index) {
-            int currentMonth = _sequentialMonths[index].month - 1;
-            int currentYear = _sequentialMonths[index].year;
-            return Column(
-              children: <Widget>[
-                InkWell(
-                  onTap: () =>
-                      setState(() => _currentView = CalendarViews.months),
-                  child: Center(
-                    child: Text(
-                      '${CalendarUtils.monthNames[currentMonth]} ${currentYear}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
+              controller: _scrollController,
+              itemBuilder: (itemContext, index) {
+                int currentMonth = _sequentialMonths[index].month - 1;
+                int currentYear = _sequentialMonths[index].year;
+                return Column(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () =>
+                          setState(() => _currentView = CalendarViews.months),
+                      child: Center(
+                        child: Text(
+                          '${CalendarUtils.monthNames[currentMonth]} ${currentYear}',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                _calendarBody(_sequentialMonths[index].sequentialDates),
-              ],
-            );
-          },
-          itemCount: _sequentialMonths.length,
-        )),
+                    _calendarBody(_sequentialMonths[index].sequentialDates),
+                  ],
+                );
+              },
+              itemCount: _sequentialMonths.length,
+            )),
       ],
     );
   }
@@ -264,11 +265,11 @@ class VerticalCalendarState extends State<VerticalCalendar> {
         if (index < 7) return _weekDayTitle(index);
         if (widget.calendarType == CalendarType.CALENDAR_RANGE_DAY) {
           if ((CalendarUtils.calculateDifference(
-                          _sequentialDates[index - 7].date, startRangeTime) ==
-                      0 ||
-                  CalendarUtils.calculateDifference(
-                          _sequentialDates[index - 7].date, endRangeTime) ==
-                      0) &&
+              _sequentialDates[index - 7].date, startRangeTime) ==
+              0 ||
+              CalendarUtils.calculateDifference(
+                  _sequentialDates[index - 7].date, endRangeTime) ==
+                  0) &&
               _sequentialDates[index - 7].thisMonth)
             return _selector(_sequentialDates[index - 7]);
           return _calendarDates(_sequentialDates[index - 7]);
@@ -317,17 +318,17 @@ class VerticalCalendarState extends State<VerticalCalendar> {
         color: backgroundColor,
         child: Center(
             child: Text(
-          '${calendarDate.date.day}',
-          style: TextStyle(
-            color: (calendarDate.thisMonth)
-                ? (calendarDate.date.weekday == DateTime.sunday)
+              '${calendarDate.date.day}',
+              style: TextStyle(
+                color: (calendarDate.thisMonth)
+                    ? (calendarDate.date.weekday == DateTime.sunday)
                     ? Colors.red
                     : Colors.black
-                : (calendarDate.date.weekday == DateTime.sunday)
+                    : (calendarDate.date.weekday == DateTime.sunday)
                     ? Colors.red.withOpacity(0.5)
                     : Colors.grey.withOpacity(0.5),
-          ),
-        )),
+              ),
+            )),
       ),
     );
   }
@@ -383,12 +384,12 @@ class VerticalCalendarState extends State<VerticalCalendar> {
     var borderRadius;
     if (startRangeTime != null && endRangeTime != null) {
       if (CalendarUtils.calculateDifference(
-              calendarDate.date, startRangeTime) ==
+          calendarDate.date, startRangeTime) ==
           0) {
         borderRadius = BorderRadius.only(
             topLeft: Radius.circular(50), bottomLeft: Radius.circular(50));
       } else if (CalendarUtils.calculateDifference(
-              calendarDate.date, endRangeTime) ==
+          calendarDate.date, endRangeTime) ==
           0) {
         borderRadius = BorderRadius.only(
             topRight: Radius.circular(50), bottomRight: Radius.circular(50));
@@ -506,11 +507,11 @@ class VerticalCalendarState extends State<VerticalCalendar> {
       endRangeTime = endDay;
     });
     int currentMonth = _sequentialMonths.indexWhere((element) =>
-        element.month == startDay.month && element.year == startDay.year);
+    element.month == startDay.month && element.year == startDay.year);
     int currentDay = _sequentialMonths[currentMonth].sequentialDates.indexWhere(
-        (element) => element.date.day == startDay.day && element.thisMonth);
-    double offset = currentMonth * MediaQuery.of(context).size.width - 30;
-    offset += (currentDay / 6) * (MediaQuery.of(context).size.width / 7);
+            (element) => element.date.day == startDay.day && element.thisMonth);
+    double offset = (currentMonth -1) * (MediaQuery.of(context).size.width - 30);
+    offset += ((currentDay - 1) / 6) * ((MediaQuery.of(context).size.width -30) / 7);
     _scrollController.animateTo(offset,
         duration: Duration(
           milliseconds: 300,
@@ -527,14 +528,14 @@ class VerticalCalendarState extends State<VerticalCalendar> {
             _toggleBtn(false),
             Expanded(
                 child: Center(
-              child: Text(
-                "Select year",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400),
-              ),
-            )),
+                  child: Text(
+                    "Select year",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400),
+                  ),
+                )),
             _toggleBtn(true),
           ],
         ),
