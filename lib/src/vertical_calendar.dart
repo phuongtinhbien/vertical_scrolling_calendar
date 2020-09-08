@@ -83,7 +83,7 @@ class VerticalCalendar extends StatefulWidget {
       onRangeDateSelected: onRangeDateSelected,
       initialDate: initialDate ?? DateTime.now(),
       unselectedColor: unselectedColor ?? Color(0xFFBDBDBD),
-      selectedColor: selectedColor?? Colors.red,
+      selectedColor: selectedColor ?? Colors.red,
       todayColor: todayColor ?? Colors.red,
       titleColor: titleColor ?? Colors.red,
       minDateTime: minDateTime,
@@ -156,7 +156,7 @@ class VerticalCalendarState extends State<VerticalCalendar> {
       });
 
       double offset =
-          (scrollIndex - 1) * (MediaQuery.of(context).size.width - 30);
+          (scrollIndex + 2) * (MediaQuery.of(context).size.width - 30);
       _scrollController.jumpTo(offset);
     });
   }
@@ -515,14 +515,16 @@ class VerticalCalendarState extends State<VerticalCalendar> {
       startRangeTime = startDay;
       endRangeTime = endDay;
     });
+
     int currentMonth = _sequentialMonths.indexWhere((element) =>
         element.month == startDay.month && element.year == startDay.year);
     int currentDay = _sequentialMonths[currentMonth].sequentialDates.indexWhere(
         (element) => element.date.day == startDay.day && element.thisMonth);
     double offset =
-        (currentMonth - 1) * (MediaQuery.of(context).size.width - 30);
+        (currentMonth + 2) * (MediaQuery.of(context).size.width - 30);
     offset +=
-        ((currentDay - 1) / 6) * ((MediaQuery.of(context).size.width - 30) / 7);
+        ((currentDay + 2) / 6) * ((MediaQuery.of(context).size.width - 30) / 7);
+
     _scrollController.animateTo(offset,
         duration: Duration(
           milliseconds: 300,
