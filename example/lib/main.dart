@@ -35,6 +35,8 @@ class _MyAppState extends State<MyApp> {
           },
           initialDate: DateTime.now(),
           titleColor: Colors.grey,
+          minDateTime: DateTime(DateTime.now().year -2, DateTime.january),
+          maxDateTime: DateTime(DateTime.now().year +2, DateTime.december),
         ),
       ),
     );
