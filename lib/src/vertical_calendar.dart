@@ -94,10 +94,7 @@ class VerticalCalendar extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return VerticalCalendarState();
-  }
+  State<StatefulWidget> createState() => VerticalCalendarState();
 }
 
 class VerticalCalendarState extends State<VerticalCalendar> {
@@ -155,64 +152,57 @@ class VerticalCalendarState extends State<VerticalCalendar> {
         }
       });
 
-      double offset =
-          (scrollIndex + 2) * (MediaQuery.of(context).size.width - 30);
+      double offset = (scrollIndex) * (MediaQuery.of(context).size.width - 30);
       _scrollController.jumpTo(offset);
     });
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: (_currentView == CalendarViews.dates)
-                ? _datesView()
-                : (_currentView == CalendarViews.months)
-                    ? _showMonthsList()
-                    : _yearsView(midYear ?? _currentStartDateTime.year)),
-      ),
-    );
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: (_currentView == CalendarViews.dates)
+            ? _datesView()
+            : (_currentView == CalendarViews.months)
+                ? _showMonthsList()
+                : _yearsView(midYear ?? _currentStartDateTime.year));
   }
 
   // dates view
   Widget _datesView() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        // header
-        Expanded(
-            child: ListView.builder(
-          controller: _scrollController,
-          itemBuilder: (itemContext, index) {
-            int currentMonth = _sequentialMonths[index].month - 1;
-            int currentYear = _sequentialMonths[index].year;
-            return Column(
-              children: <Widget>[
-                InkWell(
-                  onTap: () =>
-                      setState(() => _currentView = CalendarViews.months),
-                  child: Center(
-                    child: Text(
-                      '${CalendarUtils.monthNames[currentMonth]} ${currentYear}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
+    return ListView.builder(
+      controller: _scrollController,
+      itemBuilder: (itemContext, index) {
+        int currentMonth = _sequentialMonths[index].month - 1;
+        int currentYear = _sequentialMonths[index].year;
+        return Column(
+          children: <Widget>[
+            InkWell(
+              onTap: () => setState(() => _currentView = CalendarViews.months),
+              child: Center(
+                child: Text(
+                  '${CalendarUtils.monthNames[currentMonth]} $currentYear',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
-                _calendarBody(_sequentialMonths[index].sequentialDates),
-              ],
-            );
-          },
-          itemCount: _sequentialMonths.length,
-        )),
-      ],
+              ),
+            ),
+            _calendarBody(_sequentialMonths[index].sequentialDates),
+          ],
+        );
+      },
+      itemCount: _sequentialMonths.length,
     );
   }
 
@@ -515,21 +505,27 @@ class VerticalCalendarState extends State<VerticalCalendar> {
       startRangeTime = startDay;
       endRangeTime = endDay;
     });
+    for (int i = 0; _currentStartDateTime.isBefore(widget.maxDateTime); i++) {
+      _getCalendar(index: i);
+      if (startRangeTime != null) {
+        if (_currentStartDateTime.year == startDay.year &&
+            _currentStartDateTime.month == startDay.month) {
+          scrollIndex = i;
+        }
+      } else {
+        if (_currentStartDateTime.year == DateTime.now().year &&
+            _currentStartDateTime.month == DateTime.now().month) {
+          scrollIndex = i;
+        }
+      }
+      _currentStartDateTime =
+          DateTime(_currentStartDateTime.year, _currentStartDateTime.month + 1);
+    }
 
-    int currentMonth = _sequentialMonths.indexWhere((element) =>
-        element.month == startDay.month && element.year == startDay.year);
-    int currentDay = _sequentialMonths[currentMonth].sequentialDates.indexWhere(
-        (element) => element.date.day == startDay.day && element.thisMonth);
-    double offset =
-        (currentMonth + 2) * (MediaQuery.of(context).size.width - 30);
-    offset +=
-        ((currentDay + 2) / 6) * ((MediaQuery.of(context).size.width - 30) / 7);
-
+    double offset = (scrollIndex) * (MediaQuery.of(context).size.width - 30);
     _scrollController.animateTo(offset,
-        duration: Duration(
-          milliseconds: 300,
-        ),
-        curve: Curves.linear);
+        duration: Duration(milliseconds: 300),
+        curve: Curves.fastLinearToSlowEaseIn);
   }
 
   // years list views
